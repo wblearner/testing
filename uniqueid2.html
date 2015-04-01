@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>CSV Format Changer</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+    var arr=[];
+    
+     
+        $.ajax({
+            type: "GET",
+            url: "textsum.csv",
+            dataType: "text",
+            success: function (data) {
+                alert(data);
+                processData(data);
+            }
+        });
+ 
+
+    function processData(allText) {
+        var allTextLines = allText.split(/\r\n|\n/);
+       // var headers = allTextLines[0].split(',');
+        for (var i in allTextLines) {
+            changer(allTextLines[i],i);
+        }
+	alert(arr.length);
+	for(var i=1;i<arr.length;i++){
+		$("#tt").append(arr[i]);
+		$("#tt").append("<br>");
+	}
+	
+    }
+
+
+
+
+    function changer(text,rownum) {
+       
+	alert(text);
+	var id=text.split(",")[0];
+	//alert(id);
+	if(id==null || id=="")
+	{
+		return;
+	}
+	var index=id.indexOf(":");
+	
+	if(index>=0)
+	{
+		var newArr = id.split(":");
+		for(var j=0;j<newArr.length;j++)
+		{
+			//arr.push(newArr[j]);
+			if ($.inArray(newArr[j], arr) < 0) {
+          			arr.push(newArr[j]);
+			}
+        		}
+	      	
+	}
+	else if(index==-1)
+	{
+		if ($.inArray(id, arr) < 0) {
+          			arr.push(id);
+        		}
+        		
+	}
+    }
+
+</script>
+</head>
+<body>
+<div id="tt"></div>
+</body>
+</html>
+
